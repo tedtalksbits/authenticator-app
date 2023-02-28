@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { UserApi } from '../../api/userApi';
+import { Anchor, Button, Container, Paper, PasswordInput, Text, TextInput, Title } from '@mantine/core';
 const useTest = () => ({
     test: {
         hello: 'world',
@@ -19,7 +20,7 @@ export const Login = () => {
         });
     };
 
-    const handleSubmitUserLogin = async (e: React.MouseEvent<HTMLInputElement, MouseEvent>) => {
+    const handleSubmitUserLogin = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
         const resp = await UserApi.loginUser(userLogin);
 
@@ -27,15 +28,23 @@ export const Login = () => {
     };
 
     return (
-        <div>
-            <h1>Login</h1>
-            <label htmlFor='username'>Username</label>
-            <input type='text' id='username' name='username' onChange={handleSetUserLogin} />
-            <label htmlFor='password'>Password</label>
-            <input type='password' autoComplete='true' id='password' name='password' onChange={handleSetUserLogin} />
-            <input type='button' value='login' onClick={(e) => handleSubmitUserLogin(e)} />
+        <Container size={420} my={40}>
+            <Title align='center'>Login</Title>
+            <Text color='dimmed' size='sm' align='center' mt={5}>
+                Do not have an account yet?{' '}
+                <Anchor<'a'> href='#' size='sm' onClick={(event) => event.preventDefault()}>
+                    Create account
+                </Anchor>
+            </Text>
+            <Paper withBorder shadow='md' p={30} mt={30} radius='md'>
+                <TextInput label='Username' required onChange={handleSetUserLogin} />
+                <PasswordInput label='Password' required mt='md' onChange={handleSetUserLogin} />
+                <Button onClick={(e) => handleSubmitUserLogin(e)} mt='md' fullWidth>
+                    Log in
+                </Button>
+            </Paper>
 
             <pre>{JSON.stringify(userLogin, null, 2)}</pre>
-        </div>
+        </Container>
     );
 };
