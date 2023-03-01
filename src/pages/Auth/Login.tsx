@@ -24,7 +24,7 @@ export const Login = () => {
         e.preventDefault();
         const resp = await UserApi.loginUser(userLogin);
 
-        console.log(resp.message);
+        console.log(resp);
     };
 
     return (
@@ -37,8 +37,8 @@ export const Login = () => {
                 </Anchor>
             </Text>
             <Paper withBorder shadow='md' p={30} mt={30} radius='md'>
-                <TextInput label='Username' required onChange={handleSetUserLogin} />
-                <PasswordInput label='Password' required mt='md' onChange={handleSetUserLogin} />
+                <TextInput label='Username' required onChange={handleSetUserLogin} name='username' />
+                <PasswordInput label='Password' required mt='md' onChange={handleSetUserLogin} name='password' />
                 <Button onClick={(e) => handleSubmitUserLogin(e)} mt='md' fullWidth>
                     Log in
                 </Button>
