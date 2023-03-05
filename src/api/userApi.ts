@@ -41,6 +41,7 @@ export class UserApi {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(user),
+                credentials: 'include',
             });
             return await response.json();
         } catch (error) {
@@ -56,7 +57,9 @@ export class UserApi {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(user),
+                credentials: 'include',
             });
+            console.log(response.headers);
             return await response.json();
         } catch (error) {
             return error;

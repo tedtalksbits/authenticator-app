@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { UserApi } from '../../api/userApi';
 import { Anchor, Button, Container, Paper, PasswordInput, Text, TextInput, Title } from '@mantine/core';
+import { AccountApi } from '../../api/accountApi';
 const useTest = () => ({
     test: {
         hello: 'world',
@@ -27,6 +28,14 @@ export const Login = () => {
         console.log(resp);
     };
 
+    const handleSubmitCreateAcc = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        e.preventDefault();
+        console.log('create account');
+        const resp = await AccountApi.createAccount({
+            userId: 2,
+        });
+    };
+
     return (
         <Container size={420} my={40}>
             <Title align='center'>Login</Title>
@@ -45,6 +54,8 @@ export const Login = () => {
             </Paper>
 
             <pre>{JSON.stringify(userLogin, null, 2)}</pre>
+
+            <Button onClick={(e) => handleSubmitCreateAcc(e)}>check cookie</Button>
         </Container>
     );
 };
