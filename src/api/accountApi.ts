@@ -11,14 +11,16 @@ type Account = {
 };
 
 export class AccountApi {
-    // static async getAllAccounts() {
-    //     try {
-    //         const response = await fetch('http://localhost:5004/accounts');
-    //         return await response.json();
-    //     } catch (error) {
-    //         return error;
-    //     }
-    // }
+    static async getAllAccounts(id: string) {
+        try {
+            const response = await fetch(`http://localhost:5004/accounts?userId=${id}`, {
+                credentials: 'include',
+            });
+            return await response.json();
+        } catch (error) {
+            return error;
+        }
+    }
 
     // static async getAccountById(id: number) {
     //     try {
