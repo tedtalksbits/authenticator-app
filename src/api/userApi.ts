@@ -1,12 +1,10 @@
 type User = {
     id?: number;
-    firstName?: string;
-    lastName?: string;
-    email?: string;
-    password?: string;
-    username?: string;
+    password: string;
+    username: string;
     createdAt?: string;
     updatedAt?: string;
+    role_id: '0' | '100' | '400';
 };
 
 type UserLogin = {
@@ -36,6 +34,21 @@ export class UserApi {
     static async createUser(user: User) {
         try {
             const response = await fetch('http://localhost:5004/users', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(user),
+                credentials: 'include',
+            });
+            return await response.json();
+        } catch (error) {
+            return error;
+        }
+    }
+    static async createUserWithRole(user: User) {
+        try {
+            const response = await fetch('http://localhost:5004/users/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

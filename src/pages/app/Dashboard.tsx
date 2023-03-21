@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Dashboard = () => {
-    return <div>Dashboard</div>;
+    return <div>Dashboard, apps will be displayed here</div>;
 };
 
 export default Dashboard;

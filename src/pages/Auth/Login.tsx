@@ -5,13 +5,14 @@ import { Alert } from '@mantine/core';
 import { IconAlertCircle } from '@tabler/icons-react';
 import { AccountApi } from '../../api/accountApi';
 import { useDisclosure } from '@mantine/hooks';
-const useTest = () => ({
-    test: {
-        hello: 'world',
-        world: 'hello',
-    },
-});
+import Cookies from 'js-cookie';
+import { UseUser } from '../../context/UserContext';
+import { Link } from 'react-router-dom';
+import { useCookieSession } from '../../hooks/useCookieSession';
+
 export const Login = () => {
+    const { user, setUser } = UseUser();
+    const { cookie, setCookieSession } = useCookieSession('token');
     const [userLogin, setUserLogin] = useState({
         username: '',
         password: '',
@@ -52,6 +53,16 @@ export const Login = () => {
             });
             open();
         }
+
+        if (resp.status === 200) {
+            setUser({
+                ...user,
+                username: resp.data.username,
+                isAuth: true,
+                role_id: resp.data.role_id,
+            });
+            setCookieSession('test', 'test');
+        }
     };
 
     const handleSubmitCreateAcc = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -61,9 +72,21 @@ export const Login = () => {
         console.log(resp);
     };
 
+    const handleCreateUserWithRole = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        e.preventDefault();
+        const secure = window.location.protocol === 'https';
+        console.log(Cookies.get('token'));
+        const resp = await UserApi.createUserWithRole({
+            username: 'test2',
+            password: 'test',
+            role_id: '0',
+        });
+        console.log(resp);
+    };
+
     return (
         <Container size={420} my={40}>
-            <Title align='center'>Login</Title>
+            <Title align='center'>Exportal - Login</Title>
             <Text color='dimmed' size='sm' align='center' mt={5}>
                 Do not have an account yet?{' '}
                 <Anchor<'a'> href='#' size='sm' onClick={(event) => event.preventDefault()}>
@@ -89,7 +112,9 @@ export const Login = () => {
 
             <pre>{JSON.stringify(userLogin, null, 2)}</pre>
 
-            <Button onClick={(e) => handleSubmitCreateAcc(e)}>check cookie</Button>
+            <Button onClick={(e) => handleCreateUserWithRole(e)}>Super user action</Button>
+
+            {user.isAuth && <Link to='/'>Go to app</Link>}
         </Container>
     );
 };
